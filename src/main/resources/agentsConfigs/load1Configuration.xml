@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<cfg>
+    <!--  network information           -->
+    <modelIp>10.8.8.103</modelIp>
+    <modelPort>9001</modelPort>
+
+    <!--  agent detector parameters  -->
+    <interface>\Device\NPF_Loopback</interface>
+    <period>1000</period>
+    <port>1250</port>
+
+    <!--    element information         -->
+    <maxP>500</maxP>
+    <currentP>150</currentP>
+    <maxQ>100</maxQ>
+    <currentQ>50</currentQ>
+
+    <!--    PI regulator parameters     -->
+    <kp>-10</kp>
+    <ki>-0.5</ki>
+    <targetFreq>50</targetFreq>
+    <deltaFrequency>0.01</deltaFrequency>
+</cfg>

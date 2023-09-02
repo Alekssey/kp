@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<agentDescriptions>
+
+    <agentDescription>
+        <name>station1</name>
+        <class>ru.mpei.brics.agents.NetworkElementAgent</class>
+        <args>station1Config.xml</args>
+    </agentDescription>
+
+<!--    <agentDescription>-->
+<!--        <name>station2</name>-->
+<!--        <class>ru.mpei.brics.agents.NetworkElementAgent</class>-->
+<!--        <args>station2Config.xml</args>-->
+<!--    </agentDescription>-->
+
+<!--    <agentDescription>-->
+<!--        <name>load1</name>-->
+<!--        <class>ru.mpei.brics.agents.NetworkElementAgent</class>-->
+<!--        <args>load1Config.xml</args>-->
+<!--    </agentDescription>-->
+
+</agentDescriptions>

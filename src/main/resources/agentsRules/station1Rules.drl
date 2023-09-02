@@ -1,0 +1,24 @@
+import ru.mpei.brics.extention.dto.DroolsFrequencyFitnessDto;
+import ru.mpei.brics.extention.dto.DroolsFrequencyAllowDto;
+import jade.core.Agent;
+
+rule "station1 active power deficit fitness calculation"
+    when
+        $dto: DroolsFrequencyFitnessDto(agentName == "station1", currentFreq < 50)
+    then
+        $dto.setFitnessVal(10 * (1- $dto.getCurrentP() / $dto.getMaxP()) + 10);
+end
+
+rule "station1 active power surplus fitness calculation"
+    when
+        $dto: DroolsFrequencyFitnessDto(agentName == "station1", currentFreq > 50)
+    then
+        $dto.setFitnessVal(10 * ($dto.getCurrentP() / $dto.getMaxP()) + 10);
+end
+
+rule "station1 allow signal"
+    when
+        $dto: DroolsFrequencyAllowDto(agentName == "station1", currentP <= maxP && currentP >= 0)
+    then
+        $dto.setAllow(true);
+end
