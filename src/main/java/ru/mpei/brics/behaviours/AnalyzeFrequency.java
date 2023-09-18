@@ -7,7 +7,6 @@ import org.springframework.context.ApplicationContext;
 import ru.mpei.brics.agents.NetworkElementAgent;
 import ru.mpei.brics.extention.ApplicationContextHolder;
 import ru.mpei.brics.extention.configirationClasses.NetworkElementConfiguration;
-import ru.mpei.brics.test.TestFSM;
 
 
 @Slf4j
@@ -33,7 +32,6 @@ public class AnalyzeFrequency extends TickerBehaviour {
     public int onEnd() {
         ((NetworkElementAgent) myAgent).setStartTime(System.currentTimeMillis());
         myAgent.addBehaviour(new ActivePowerImbalanceFSM(myAgent, this.getPeriod()));
-//        myAgent.addBehaviour(new TestFSM(myAgent));
         return 1;
     }
 }

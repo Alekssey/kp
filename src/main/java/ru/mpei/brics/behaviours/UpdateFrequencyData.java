@@ -45,12 +45,7 @@ public class UpdateFrequencyData extends TickerBehaviour {
         double frequency = Double.parseDouble(responseObject.getResponses().get(0).getValues().get(0));
 
         this.cfg.setF(frequency);
-//        TSDBResponse response = service.getMeasurementsByParameters(List.of("frequency"), 0);
-//        if(response != null) {
-//            this.cfg.setF(Double.parseDouble(
-//                    response.getResponses().get(0).getValues().get(0)
-//            ));
-//        }
+
     }
 
 }

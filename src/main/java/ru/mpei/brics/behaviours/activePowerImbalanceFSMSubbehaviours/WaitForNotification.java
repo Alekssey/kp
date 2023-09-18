@@ -5,7 +5,7 @@ import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import lombok.extern.slf4j.Slf4j;
-import ru.mpei.brics.extention.dto.AgentToAgentDto;
+import ru.mpei.brics.extention.dto.TransferDutyStatus;
 import ru.mpei.brics.extention.helpers.JacksonHelper;
 
 @Slf4j
@@ -13,27 +13,26 @@ public class WaitForNotification extends Behaviour {
 
     private boolean doneFlg = false;
     private int behaviourResult;
+    private MessageTemplate mt;
 
     public WaitForNotification(Agent a) {
         super(a);
-        System.err.println(myAgent.getLocalName() + " wait for notification behaviour created");
-    }
-
-    @Override
-    public void onStart() {
-        System.err.println(myAgent.getLocalName() + " wait for notification behaviour start");
+        this.mt = MessageTemplate.and(
+                MessageTemplate.MatchPerformative(ACLMessage.REQUEST),
+                MessageTemplate.MatchProtocol("transfer duty")
+        );
     }
 
     @Override
     public void action() {
-        System.err.println(myAgent.getLocalName() + " wait for notification behaviour act");
-        ACLMessage msg = myAgent.receive(MessageTemplate.MatchPerformative(ACLMessage.REQUEST));
-        if(msg != null) {
-            AgentToAgentDto dto = JacksonHelper.fromJackson(msg.getContent(), AgentToAgentDto.class);
-            switch (dto.getStatus()) {
+        ACLMessage request = myAgent.receive();
+        if(request != null) {
+            TransferDutyStatus status = JacksonHelper.fromJackson(request.getContent(), TransferDutyStatus.class);
+            switch (status) {
                 case FAIL:
+                    log.error(" Fail message received by {}", myAgent.getLocalName());
                     this.behaviourResult = 1;
-//                    sendConfirmAnswer(msg);
+                    handleRequest(request);
                     break;
                 case SUCCESS:
                     this.behaviourResult = 2;
@@ -47,7 +46,6 @@ public class WaitForNotification extends Behaviour {
 
     @Override
     public int onEnd() {
-        System.err.println(myAgent.getLocalName() + " wait for notification behaviour end");
         return this.behaviourResult;
     }
 
@@ -56,10 +54,11 @@ public class WaitForNotification extends Behaviour {
         return this.doneFlg;
     }
 
-    private void sendConfirmAnswer(ACLMessage msg) {
-        ACLMessage answer = new ACLMessage();
-        answer.setPerformative(ACLMessage.CONFIRM);
-        answer.addReceiver(msg.getSender());
-        myAgent.send(answer);
+    private void handleRequest(ACLMessage request) {
+        ACLMessage response = request.createReply();
+        response.setPerformative(ACLMessage.INFORM);
+        response.setProtocol("transfer duty");
+        response.setContent(JacksonHelper.toJackson(TransferDutyStatus.CONFIRM));
+        myAgent.send(response);
     }
 }

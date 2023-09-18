@@ -24,6 +24,8 @@ public class NetworkElementConfiguration {
     /** meta information */
     @XmlElement(name = "maxP")
     private double maxP;
+    @XmlElement(name = "minP")
+    private double minP;
     @XmlElement(name = "currentP")
     private double currentP;
     @XmlElement(name = "maxQ")
@@ -55,6 +57,12 @@ public class NetworkElementConfiguration {
     private boolean pTradeIsOpen = false;
     private ArrayList<Double> fitnessValues = new ArrayList<>();
     private Map<Double, AID> agentsQueue = new HashMap<>();
+
+    /** commands names */
+    @XmlElement(name = "pMeasurementName")
+    private String pMeasurementName;
+    @XmlElement(name = "pCommandName")
+    private String pCommandName;
 
 
 }

@@ -15,13 +15,13 @@ public class LastBehaviour extends OneShotBehaviour {
 
     public LastBehaviour(Agent a) {
         super(a);
-        System.err.println(myAgent.getLocalName() + " last behaviour created");
+//        System.err.println(myAgent.getLocalName() + " last behaviour created");
     }
 
-    @Override
-    public void onStart() {
-        System.err.println(myAgent.getLocalName() + " last behaviour start");
-    }
+//    @Override
+//    public void onStart() {
+//        System.err.println(myAgent.getLocalName() + " last behaviour start");
+//    }
 
     @Override
     public void action() {
@@ -38,9 +38,9 @@ public class LastBehaviour extends OneShotBehaviour {
         log.error("regulating time: {} seconds", (System.currentTimeMillis() - ((NetworkElementAgent) myAgent).getStartTime()) / 1000);
     }
 
-    @Override
-    public int onEnd() {
-        System.err.println(myAgent.getLocalName() + " last behaviour end");
-        return 0;
-    }
+//    @Override
+//    public int onEnd() {
+//        System.err.println(myAgent.getLocalName() + " last behaviour end");
+//        return 0;
+//    }
 }

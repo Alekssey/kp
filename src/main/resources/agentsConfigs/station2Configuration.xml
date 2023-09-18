@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <cfg>
     <!--  network information           -->
-    <modelIp>10.8.8.103</modelIp>
+    <modelIp>10.8.8.183</modelIp>
+    <!--    <modelIp>192.168.1.231</modelIp>-->
     <modelPort>9001</modelPort>
 
     <!--  agent detector parameters  -->
@@ -10,8 +11,9 @@
     <port>1250</port>
 
     <!--    element information         -->
-    <maxP>200</maxP>
-    <currentP>50</currentP>
+    <maxP>150</maxP>
+    <minP>0</minP>
+    <currentP>100</currentP>
     <maxQ>100</maxQ>
     <currentQ>50</currentQ>
 
@@ -20,4 +22,8 @@
     <ki>0.5</ki>
     <targetFreq>50</targetFreq>
     <deltaFrequency>0.01</deltaFrequency>
+
+    <!--  commands names  -->
+    <pCommandName>TestGen2</pCommandName>
+    <pMeasurementName>GenScan2</pMeasurementName>
 </cfg>

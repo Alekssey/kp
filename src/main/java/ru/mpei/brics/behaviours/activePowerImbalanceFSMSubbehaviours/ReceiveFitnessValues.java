@@ -17,19 +17,19 @@ public class ReceiveFitnessValues extends Behaviour {
 
     public ReceiveFitnessValues(Agent a) {
         super(a);
-        System.err.println(myAgent.getLocalName() + " receive fitness behaviour created");
+//        System.err.println(myAgent.getLocalName() + " receive fitness behaviour created");
     }
 
     private int msgCounter = 0;
     @Override
     public void onStart() {
         this.mt = MessageTemplate.MatchPerformative(ACLMessage.REQUEST);
-        System.err.println(myAgent.getLocalName() + " receive fitness behaviour start");
+//        System.err.println(myAgent.getLocalName() + " receive fitness behaviour start");
     }
 
     @Override
     public void action() {
-        log.error("Receive Fitness behaviour act; number of active agents = {}", ((NetworkElementAgent) myAgent).getADetector().getActiveAgents().size());
+//        log.error("Receive Fitness behaviour act; number of active agents = {}", ((NetworkElementAgent) myAgent).getADetector().getActiveAgents().size());
 
         if(((NetworkElementAgent) myAgent).getADetector().getActiveAgents().isEmpty()) return;
 
@@ -49,19 +49,20 @@ public class ReceiveFitnessValues extends Behaviour {
 
     @Override
     public int onEnd() {
-        System.err.println(myAgent.getLocalName() + " receive fitness behaviour end");
+        System.err.println(myAgent.getLocalName() + " hash map size: " + this.cfg.getAgentsQueue().size());
+//        System.err.println(myAgent.getLocalName() + " receive fitness behaviour end");
         if(this.cfg.getAgentsQueue().get(this.cfg.getFitnessValues().get(0)).equals(myAgent.getAID())) {
-            System.err.println(myAgent.getLocalName() + " receive fitness behaviour return 1");
+//            System.err.println(myAgent.getLocalName() + " receive fitness behaviour return 1");
             return 1;
         } else {
-            System.err.println(myAgent.getLocalName() + " receive fitness behaviour return 2");
+//            System.err.println(myAgent.getLocalName() + " receive fitness behaviour return 2");
             return 2;
         }
     }
 
     @Override
     public boolean done() {
-        System.err.println("done method act");
+//        System.err.println("done method act");
         return msgCounter == ((NetworkElementAgent) myAgent).getADetector().getActiveAgents().size();
     }
 

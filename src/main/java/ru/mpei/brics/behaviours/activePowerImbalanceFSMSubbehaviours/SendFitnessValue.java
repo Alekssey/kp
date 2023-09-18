@@ -19,17 +19,17 @@ public class SendFitnessValue extends OneShotBehaviour {
 
     public SendFitnessValue(Agent a) {
         super(a);
-        System.err.println(myAgent.getLocalName() + " send fitness value behaviour created");
+//        System.err.println(myAgent.getLocalName() + " send fitness value behaviour created");
     }
 
-    @Override
-    public void onStart() {
-        System.err.println(myAgent.getLocalName() + " send fitness value behaviour start");
-    }
+//    @Override
+//    public void onStart() {
+//        System.err.println(myAgent.getLocalName() + " send fitness value behaviour start");
+//    }
 
     @Override
     public void action() {
-        System.err.println(myAgent.getLocalName() + " send fitness value behaviour act");
+//        System.err.println(myAgent.getLocalName() + " send fitness value behaviour act");
         ACLMessage msg = new ACLMessage();
 
         msg.setPerformative(ACLMessage.REQUEST);
@@ -37,14 +37,6 @@ public class SendFitnessValue extends OneShotBehaviour {
 
         double fitnessVal = doRequestFitnessFromDrools();
         msg.setContent(Double.toString(fitnessVal));
-
-//        List<AID> activeAgents = DFHelper.findAgents(myAgent, "networkUnit");
-//        List<AID> activeAgents = ((NetworkElementAgent) myAgent).getADetector().getActiveAgents();
-//        cfg.setNumberOfActiveAgents(activeAgents.size() - 1);
-
-//        for(AID aid : ((NetworkElementAgent) myAgent).getADetector().getActiveAgents()) {
-//            msg.addReceiver(aid);
-//        }
 
         ((NetworkElementAgent) myAgent).getADetector().getActiveAgents().forEach(msg::addReceiver);
 
@@ -69,9 +61,9 @@ public class SendFitnessValue extends OneShotBehaviour {
         return fitnessVal;
     }
 
-    @Override
-    public int onEnd() {
-        System.err.println(myAgent.getLocalName() + " send fitness value behaviour end");
-        return 0;
-    }
+//    @Override
+//    public int onEnd() {
+//        System.err.println(myAgent.getLocalName() + " send fitness value behaviour end");
+//        return 0;
+//    }
 }

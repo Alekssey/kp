@@ -19,6 +19,5 @@ public class AgentDescription {
     @XmlElement(name="class")
     private Class agentClass;
     @XmlElement(name="arg")
-
-    private Object[] args;
+    private String[] args;
 }

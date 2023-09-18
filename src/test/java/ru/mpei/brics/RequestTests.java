@@ -1,6 +1,5 @@
 package ru.mpei.brics;
 
-import jade.lang.acl.ACLMessage;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 import ru.mpei.brics.extention.dto.CommandTO;
@@ -13,10 +12,31 @@ import java.util.List;
 
 public class RequestTests {
     @Test
+    void sendCommandToTSDB() {
+        HttpRequestsBuilder requestsBuilder1 = new HttpRequestsBuilder();
+        ResponseEntity response = requestsBuilder1.sendPostRequest(
+                "http://10.8.8.183:9001/iec104/send/command",
+                new HashMap<>(),
+                new CommandTO("TestGen", "50"));
+
+        HttpRequestsBuilder requestsBuilder2 = new HttpRequestsBuilder();
+        ResponseEntity response2 = requestsBuilder2.sendPostRequest(
+                "http://10.8.8.183:9001/iec104/send/command",
+                new HashMap<>(),
+                new CommandTO("TestGen2", "50"));
+        System.out.println(response.getBody());
+    }
+
+
+
+
+
+
+    @Test
     void askMeasurementFromTSDB() {
         HttpRequestsBuilder requestsBuilder = new HttpRequestsBuilder();
         ResponseEntity response = requestsBuilder.sendPostRequest(
-                "http://10.8.8.117:9001/request/measurements/last",
+                "http://10.8.8.183:9001/request/measurements/last",
                 new HashMap<>(),
                 List.of("TestFreq", "TestGeneration"));
         System.out.println(response.getBody());
@@ -25,19 +45,14 @@ public class RequestTests {
         System.out.println(responseObject.getResponses().get(0).getValues().get(0));
     }
 
+
     @Test
-    void sendCommandToTSDB() {
+    void unlockAgents() {
         HttpRequestsBuilder requestsBuilder = new HttpRequestsBuilder();
         ResponseEntity response = requestsBuilder.sendPostRequest(
-                "http://192.168.1.231:9001/iec104/send/command",
+                "http://127.0.0.1:9005/agents/unlock",
                 new HashMap<>(),
-                new CommandTO("TestGen", "100"));
-        System.out.println(response.getBody());
-    }
-
-    @Test
-    void seePerformatives() {
-        List<String> list = List.of(ACLMessage.getAllPerformativeNames());
-
+                List.of("station1")
+        );
     }
 }
