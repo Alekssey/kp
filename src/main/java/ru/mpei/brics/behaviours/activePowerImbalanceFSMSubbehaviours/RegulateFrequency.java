@@ -21,8 +21,10 @@ import java.util.HashMap;
 public class RegulateFrequency extends TickerBehaviour {
 
     private NetworkElementConfiguration cfg = ((NetworkElementAgent) myAgent).getCfg();
-    private Regulator regulator = new PiRegulator(cfg.getKp(), cfg.getKi());
-    private HttpRequestsBuilder requestsBuilder = new HttpRequestsBuilder();
+    private final Regulator regulator = new PiRegulator(cfg.getKp(), cfg.getKi());
+    private final HttpRequestsBuilder requestsBuilder = new HttpRequestsBuilder();
+    private final double[] previousFrequencyValue = new double[]{-1.0, -1.0};
+    private double powerBeforeRegulating;
     private String url;
     private int behaviourResult;
 
@@ -35,6 +37,8 @@ public class RegulateFrequency extends TickerBehaviour {
     public void onStart() {
 //        System.err.println(myAgent.getLocalName() + " regulate frequency behaviour start");
         this.url = "http://" + cfg.getModelIp() + ":" + cfg.getModelPort() + "/iec104/send/command";
+        this.powerBeforeRegulating = this.cfg.getCurrentP();
+        System.err.println("my start power " + this.powerBeforeRegulating);
 
         if(((NetworkElementAgent) myAgent).getKieSession() == null) {
             ApplicationContext context = ApplicationContextHolder.getContext();
@@ -46,13 +50,21 @@ public class RegulateFrequency extends TickerBehaviour {
 
     @Override
     protected void onTick() {
-//        System.err.println(myAgent.getLocalName() + " regulate frequency behaviour act");
-
         DroolsFrequencyAllowDto dto = new DroolsFrequencyAllowDto(
                 myAgent.getLocalName(), cfg.getMaxP(), cfg.getCurrentP(), cfg.getF());
         ((NetworkElementAgent) myAgent).getKieSession().insert(dto);
         ((NetworkElementAgent) myAgent).getKieSession().fireAllRules();
-        if(dto.isAllow()) {
+
+        if(dto.isAllow() && checkFrequencyChanging()) {
+//            if (!checkFrequencyChanging()) {
+//                behaviourResult = 2;
+//                this.cfg.setCurrentP(this.powerBeforeRegulating);
+//                sendCommandToModel();
+//                this.stop();
+//
+//                System.out.println();
+//            }
+
             if(cfg.getF() >= cfg.getTargetFreq() - cfg.getDeltaFreq()
                     && cfg.getF() <= cfg.getTargetFreq() + cfg.getDeltaFreq()) {
                 this.behaviourResult = 1;
@@ -73,16 +85,32 @@ public class RegulateFrequency extends TickerBehaviour {
                 cfg.setCurrentP(cfg.getCurrentP() + supplement);
             }
 
-//            if(cfg.getF() >= cfg.getTargetFreq() - cfg.getDeltaFreq()
-//                    && cfg.getF() <= cfg.getTargetFreq() + cfg.getDeltaFreq()) {
-//                this.behaviourResult = 1;
-//                this.stop();
-//            }
             sendCommandToModel();
-        } else {
+        } else if (!dto.isAllow()) {
             this.behaviourResult = 2;
             this.stop();
+        } else if (!checkFrequencyChanging()) {
+            behaviourResult = 2;
+            this.cfg.setCurrentP(this.powerBeforeRegulating);
+            sendCommandToModel();
+            this.stop();
         }
+    }
+    
+    private boolean checkFrequencyChanging() {
+        if (this.previousFrequencyValue[0] != -1 && this.previousFrequencyValue[1] != -1 
+                && (this.cfg.getF() != this.previousFrequencyValue[0] || this.cfg.getF() != this.previousFrequencyValue[1])) {
+            this.previousFrequencyValue[0] = this.previousFrequencyValue[1];
+            this.previousFrequencyValue[1] = this.cfg.getF();
+            return true;
+        } else if (this.previousFrequencyValue[0] == -1) {
+            this.previousFrequencyValue[0] = this.cfg.getF();
+            return true;
+        } else if (this.previousFrequencyValue[1] == -1) {
+            this.previousFrequencyValue[1] = this.cfg.getF();
+            return true;
+        }
+        return false;
     }
 
     private void sendCommandToModel() {
@@ -94,9 +122,6 @@ public class RegulateFrequency extends TickerBehaviour {
 
     @Override
     public int onEnd() {
-        System.err.println(myAgent.getLocalName() + " hash map size: " + this.cfg.getAgentsQueue().size());
-
-//        System.err.println(myAgent.getLocalName() + " regulate frequency behaviour end, result: " + behaviourResult);
         return behaviourResult;
     }
 }

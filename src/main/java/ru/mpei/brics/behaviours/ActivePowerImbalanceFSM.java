@@ -16,9 +16,9 @@ public class ActivePowerImbalanceFSM extends FSMBehaviour {
         registerState(new ReceiveFitnessValues(myAgent), "RECEIVE_FITNESS");
         registerState(new RegulateFrequency(myAgent, period), "REGULATE_FREQUENCY");
         registerState(new SendSuccessMsg(myAgent), "SEND_SUCCESS");
-        registerState(new AchieveSendFailMsg(myAgent, new ACLMessage()), "SEND_FAIL");
+        registerState(new SendFailMsg(myAgent, new ACLMessage()), "SEND_FAIL");
         registerState(new WaitForNotification(myAgent), "NOTIFICATION_WAITING");
-        registerState(new BlockBehaviour(myAgent), "BLOCK");
+        registerState(new BlockBehaviour(myAgent, period), "BLOCK");
         registerLastState(new LastBehaviour(myAgent), "END");
 
         registerDefaultTransition("SEND_FITNESS", "RECEIVE_FITNESS");
@@ -34,6 +34,7 @@ public class ActivePowerImbalanceFSM extends FSMBehaviour {
         registerTransition("RECEIVE_FITNESS", "NOTIFICATION_WAITING", 2);
         registerTransition("NOTIFICATION_WAITING", "REGULATE_FREQUENCY", 1);
         registerTransition("NOTIFICATION_WAITING", "END", 2);
+        registerTransition("NOTIFICATION_WAITING", "BLOCK", 3);
         registerDefaultTransition("REGULATE_FREQUENCY", "END");
 
     }

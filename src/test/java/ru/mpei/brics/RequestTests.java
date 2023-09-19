@@ -55,4 +55,14 @@ public class RequestTests {
                 List.of("station1")
         );
     }
+
+    @Test
+    void check() {
+//        double[] dsf = new double[]{-1.0, -1.0};
+//        System.out.println();
+
+
+    }
+
+
 }

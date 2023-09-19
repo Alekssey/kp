@@ -14,23 +14,23 @@ public class SpringBootApplication {
     public static void main(String[] args) {
         SpringApplication.run(SpringBootApplication.class, args);
 
-        ApplicationContext context = ApplicationContextHolder.getContext();
-        String[] beanNames = context.getBeanDefinitionNames();
-        log.info("Number of beans in context: {}", beanNames.length);
         createAgents();
     }
 
     private static void createAgents() {
-        ApplicationContext context = ApplicationContextHolder.getContext();
-        AgentDescriptionContainer agentDescriptionContainer = (AgentDescriptionContainer) context.getBean("agentDescriptionsContainer");
-        AgentDescription adBean = (AgentDescription) context.getBean("agentDescription");
+        ApplicationContext springContext = ApplicationContextHolder.getContext();
+        AgentDescriptionContainer agentDescriptionsContainer = (AgentDescriptionContainer) springContext.getBean("agentDescriptionsContainer");
+        AgentDescription agentDescription = (AgentDescription) springContext.getBean("agentDescription");
 
-        for (AgentDescription ad : agentDescriptionContainer.getAgentDescriptionList()) {
-            adBean.setAgentName(ad.getAgentName());
-            adBean.setAgentClass(ad.getAgentClass());
-            adBean.setArgs(ad.getArgs());
+        if (agentDescriptionsContainer.getAgentDescriptionsList() != null
+                && !agentDescriptionsContainer.getAgentDescriptionsList().isEmpty()) {
+            for (AgentDescription ad : agentDescriptionsContainer.getAgentDescriptionsList()) {
+                agentDescription.setAgentName(ad.getAgentName());
+                agentDescription.setAgentClass(ad.getAgentClass());
+                agentDescription.setArgs(ad.getArgs());
 
-            context.getBean("agentCreator");
+                springContext.getBean("agentCreator");
+            }
         }
     }
 

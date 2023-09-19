@@ -37,6 +37,9 @@ public class WaitForNotification extends Behaviour {
                 case SUCCESS:
                     this.behaviourResult = 2;
                     break;
+                case BLOCK:
+                    this.behaviourResult = 3;
+                    break;
             }
             this.doneFlg = true;
         } else {

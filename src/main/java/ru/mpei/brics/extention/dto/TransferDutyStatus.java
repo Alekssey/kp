@@ -1,5 +1,5 @@
 package ru.mpei.brics.extention.dto;
 
 public enum TransferDutyStatus {
-    SUCCESS, FAIL, CONFIRM, DISCONFIRM
+    SUCCESS, FAIL, CONFIRM, DISCONFIRM, BLOCK
 }

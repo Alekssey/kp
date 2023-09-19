@@ -19,6 +19,6 @@ public class AgentDescriptionContainer {
     }
 
     @XmlElement(name="agentDescription")
-    private List<AgentDescription> agentDescriptionList;
+    private List<AgentDescription> agentDescriptionsList;
 //    private List<Agent> agentsList;
 }
