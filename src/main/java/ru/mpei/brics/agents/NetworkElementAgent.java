@@ -35,7 +35,6 @@ public class NetworkElementAgent extends Agent {
     @Override
     protected void setup() {
         log.info("{} was born", this.getLocalName());
-//        String configFileName = this.getLocalName() + "Configuration.xml";
         String configFileName = (String) this.getArguments()[0];
         try{
             JAXBContext context = JAXBContext.newInstance(NetworkElementConfiguration.class);

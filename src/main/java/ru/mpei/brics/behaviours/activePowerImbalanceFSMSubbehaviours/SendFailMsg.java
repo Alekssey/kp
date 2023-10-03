@@ -71,7 +71,7 @@ public class SendFailMsg extends AchieveREInitiator {
     @Override
     public int onEnd() {
         log.error(" on end : {} ", this.behaviourResult);
-        sendBlockMsg();
+        if (this.behaviourResult == 2) sendBlockMsg();
         return this.behaviourResult;
     }
 

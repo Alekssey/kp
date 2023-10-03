@@ -11,11 +11,11 @@ import ru.mpei.brics.extention.configirationClasses.NetworkElementConfiguration;
 import java.util.Collections;
 
 @Slf4j
-public class ReceiveFitnessValues extends Behaviour {
+public class ReceiveFitValSubBehaviour extends Behaviour {
     private MessageTemplate mt = null;
     private NetworkElementConfiguration cfg = ((NetworkElementAgent) myAgent).getCfg();
 
-    public ReceiveFitnessValues(Agent a) {
+    public ReceiveFitValSubBehaviour(Agent a) {
         super(a);
 //        System.err.println(myAgent.getLocalName() + " receive fitness behaviour created");
     }

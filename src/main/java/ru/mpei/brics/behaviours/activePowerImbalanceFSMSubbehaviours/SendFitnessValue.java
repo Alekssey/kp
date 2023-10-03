@@ -19,23 +19,18 @@ public class SendFitnessValue extends OneShotBehaviour {
 
     public SendFitnessValue(Agent a) {
         super(a);
-//        System.err.println(myAgent.getLocalName() + " send fitness value behaviour created");
     }
-
-//    @Override
-//    public void onStart() {
-//        System.err.println(myAgent.getLocalName() + " send fitness value behaviour start");
-//    }
 
     @Override
     public void action() {
-//        System.err.println(myAgent.getLocalName() + " send fitness value behaviour act");
+//        if (myAgent.getLocalName().equals("station2")) return;
+
         ACLMessage msg = new ACLMessage();
 
         msg.setPerformative(ACLMessage.REQUEST);
         msg.setProtocol("initiatePowerTrade");
 
-        double fitnessVal = doRequestFitnessFromDrools();
+        double fitnessVal = requestFitnessFromDrools();
         msg.setContent(Double.toString(fitnessVal));
 
         ((NetworkElementAgent) myAgent).getADetector().getActiveAgents().forEach(msg::addReceiver);
@@ -44,7 +39,7 @@ public class SendFitnessValue extends OneShotBehaviour {
         log.info("{} send fitness val: {};", myAgent.getLocalName(), msg.getContent());
     }
 
-    private double doRequestFitnessFromDrools() {
+    private double requestFitnessFromDrools() {
         KieContainer kieContainer = (KieContainer) context.getBean("kieContainer");
         KieSession kieSession = kieContainer.newKieSession();
         if(((NetworkElementAgent) myAgent).getKieSession() == null) {
@@ -60,10 +55,4 @@ public class SendFitnessValue extends OneShotBehaviour {
 
         return fitnessVal;
     }
-
-//    @Override
-//    public int onEnd() {
-//        System.err.println(myAgent.getLocalName() + " send fitness value behaviour end");
-//        return 0;
-//    }
 }

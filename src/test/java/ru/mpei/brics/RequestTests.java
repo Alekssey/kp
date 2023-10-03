@@ -15,13 +15,13 @@ public class RequestTests {
     void sendCommandToTSDB() {
         HttpRequestsBuilder requestsBuilder1 = new HttpRequestsBuilder();
         ResponseEntity response = requestsBuilder1.sendPostRequest(
-                "http://10.8.8.183:9001/iec104/send/command",
+                "http://10.8.8.103:9001/iec104/send/command",
                 new HashMap<>(),
                 new CommandTO("TestGen", "50"));
 
         HttpRequestsBuilder requestsBuilder2 = new HttpRequestsBuilder();
         ResponseEntity response2 = requestsBuilder2.sendPostRequest(
-                "http://10.8.8.183:9001/iec104/send/command",
+                "http://10.8.8.103:9001/iec104/send/command",
                 new HashMap<>(),
                 new CommandTO("TestGen2", "50"));
         System.out.println(response.getBody());
