@@ -28,7 +28,7 @@ public class SendFitnessValue extends OneShotBehaviour {
         ACLMessage msg = new ACLMessage();
 
         msg.setPerformative(ACLMessage.REQUEST);
-        msg.setProtocol("initiatePowerTrade");
+        msg.setProtocol("fitness values exchange");
 
         double fitnessVal = requestFitnessFromDrools();
         msg.setContent(Double.toString(fitnessVal));

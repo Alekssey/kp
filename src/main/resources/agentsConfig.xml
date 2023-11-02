@@ -9,7 +9,7 @@
     </agentDescription>
 
     <agentDescription>
-        <name>station2</name>
+        <name> </name>
         <class>ru.mpei.brics.agents.NetworkElementAgent</class>
         <arg>station2Configuration.xml</arg>
     </agentDescription>

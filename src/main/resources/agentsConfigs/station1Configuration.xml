@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <cfg>
     <!--  network information           -->
-    <modelIp>10.8.8.103</modelIp>
+    <modelIp>10.8.8.171</modelIp>
 <!--    <modelIp>192.168.1.231</modelIp>-->
     <modelPort>9001</modelPort>
 
     <!--  agent detector parameters  -->
     <interface>\Device\NPF_Loopback</interface>
-    <period>1000</period>
+    <period>100</period>
     <port>1250</port>
 
     <!--    element information         -->

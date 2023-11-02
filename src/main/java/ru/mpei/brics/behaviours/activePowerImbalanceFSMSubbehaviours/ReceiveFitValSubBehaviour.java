@@ -14,16 +14,20 @@ import java.util.Collections;
 public class ReceiveFitValSubBehaviour extends Behaviour {
     private MessageTemplate mt = null;
     private NetworkElementConfiguration cfg = ((NetworkElementAgent) myAgent).getCfg();
+    private int msgCounter = 0;
 
     public ReceiveFitValSubBehaviour(Agent a) {
         super(a);
 //        System.err.println(myAgent.getLocalName() + " receive fitness behaviour created");
     }
 
-    private int msgCounter = 0;
     @Override
     public void onStart() {
-        this.mt = MessageTemplate.MatchPerformative(ACLMessage.REQUEST);
+        this.mt = MessageTemplate.and(
+                MessageTemplate.MatchPerformative(ACLMessage.REQUEST),
+                MessageTemplate.MatchProtocol("fitness values exchange")
+        );
+//                MessageTemplate.MatchPerformative(ACLMessage.REQUEST);
 //        System.err.println(myAgent.getLocalName() + " receive fitness behaviour start");
     }
 
@@ -34,7 +38,7 @@ public class ReceiveFitValSubBehaviour extends Behaviour {
         if(((NetworkElementAgent) myAgent).getADetector().getActiveAgents().isEmpty()) return;
 
         ACLMessage msg = myAgent.receive(mt);
-        if(msg != null && msg.getProtocol().equals("initiatePowerTrade")) {
+        if(msg != null) {
             msgCounter ++;
 //            log.info("{} receive fitness val: {} from {} ", myAgent.getLocalName(), msg.getContent(), msg.getSender().getLocalName());
             double fitnessVal = Double.parseDouble(msg.getContent());

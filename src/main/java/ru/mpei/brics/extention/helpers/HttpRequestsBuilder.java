@@ -29,7 +29,6 @@ public class HttpRequestsBuilder<T> {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
         return response;
-
     }
 
     private String addParametersToUrl(String url, HashMap<?,?> parameters) {

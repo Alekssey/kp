@@ -2,10 +2,15 @@ package ru.mpei.brics.behaviours.activePowerImbalanceFSMSubbehaviours;
 
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
+import jade.lang.acl.ACLMessage;
+import jade.lang.acl.MessageTemplate;
 import lombok.extern.slf4j.Slf4j;
 import ru.mpei.brics.agents.NetworkElementAgent;
 import ru.mpei.brics.behaviours.AnalyzeFrequency;
 import ru.mpei.brics.extention.configirationClasses.NetworkElementConfiguration;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Slf4j
 public class LastBehaviour extends OneShotBehaviour {
@@ -25,6 +30,11 @@ public class LastBehaviour extends OneShotBehaviour {
 
     @Override
     public void action() {
+        cleanUnhandledMessages(MessageTemplate.and(
+                MessageTemplate.MatchPerformative(ACLMessage.REQUEST),
+                MessageTemplate.MatchProtocol("fitness values exchange"))
+        );
+
         log.info("\nFSM end. " +
                 "\nFitness list: {}; " +
                 "\nDeque map: {} " +
@@ -43,4 +53,12 @@ public class LastBehaviour extends OneShotBehaviour {
 //        System.err.println(myAgent.getLocalName() + " last behaviour end");
 //        return 0;
 //    }
+
+    private void cleanUnhandledMessages(MessageTemplate mt) {
+        ACLMessage msg = myAgent.receive(mt);
+        while (msg != null) {
+            msg = myAgent.receive(mt);
+        }
+
+    }
 }

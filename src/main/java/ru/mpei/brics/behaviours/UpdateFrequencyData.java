@@ -33,7 +33,6 @@ public class UpdateFrequencyData extends TickerBehaviour {
 
     @Override
     protected void onTick() {
-
         HttpRequestsBuilder requestsBuilder = new HttpRequestsBuilder();
         ResponseEntity response = requestsBuilder.sendPostRequest(
                 this.url,
