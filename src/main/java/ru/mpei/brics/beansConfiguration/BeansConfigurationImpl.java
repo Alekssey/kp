@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import ru.mpei.brics.extention.agentDescription.AgentDescription;
 import ru.mpei.brics.extention.agentDescription.AgentDescriptionContainer;
+import ru.mpei.brics.extention.helpers.HttpRequestsBuilder;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -23,17 +24,17 @@ import java.io.File;
 
 @Configuration("agentConfiguration")
 @Slf4j
-public class BeansConfigurationImpl implements BeansConfigurationInterface {
+public class BeansConfigurationImpl {
     @Value("${agents.config.file.path}")
     private String configFilePath;
 
-    @Override
+
     @Bean("agentDescription")
     public AgentDescription createAgentDescription() {
         return new AgentDescription();
     }
 
-    @Override
+
     @Bean("agentDescriptionsContainer")
     public AgentDescriptionContainer unmarshallConfig() {
         AgentDescriptionContainer adContainer = null;
@@ -47,7 +48,7 @@ public class BeansConfigurationImpl implements BeansConfigurationInterface {
         return adContainer;
     }
 
-    @Override
+
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     @Bean("agentCreator")
     public AgentController createAgent(AgentDescription agentDescription, AgentContainer mainContainer) {
@@ -67,7 +68,7 @@ public class BeansConfigurationImpl implements BeansConfigurationInterface {
     }
 
 
-    @Override
+
     @Bean("jadeMainContainer")
     public AgentContainer startJadeMainContainer() {
         ProfileImpl profile = new ProfileImpl();
@@ -84,11 +85,16 @@ public class BeansConfigurationImpl implements BeansConfigurationInterface {
         return mainContainer;
     }
 
-    @Override
-    @Bean("kieContainer")
-    public KieContainer createKieContainer() {
-        KieServices ks = KieServices.Factory.get();
-        KieContainer kContainer = ks.getKieClasspathContainer();
-        return kContainer;
+    @Bean()
+    public HttpRequestsBuilder requestBuilder() {
+        return new HttpRequestsBuilder();
     }
+
+//    @Override
+//    @Bean("kieContainer")
+//    public KieContainer createKieContainer() {
+//        KieServices ks = KieServices.Factory.get();
+//        KieContainer kContainer = ks.getKieClasspathContainer();
+//        return kContainer;
+//    }
 }

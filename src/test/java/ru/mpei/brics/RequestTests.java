@@ -27,6 +27,15 @@ public class RequestTests {
         System.out.println(response.getBody());
     }
 
+    @Test
+    void identifyConnectingOfAgent() {
+        HttpRequestsBuilder requestsBuilder = new HttpRequestsBuilder();
+        ResponseEntity response = requestsBuilder.sendPostRequest(
+                "http://10.8.8.171:9001/iec104/send/command",
+                new HashMap<>(),
+                new CommandTO("wesConnecting", "1"));
+    }
+
 
 
 
@@ -62,6 +71,17 @@ public class RequestTests {
 //        System.out.println();
 
 
+    }
+
+    @Test
+    void testForList() {
+        List<String> list = List.of("Str1", "Str2");
+        int index = list.indexOf("Str2");
+        System.out.println(index);
+        System.out.println(list);
+        int i1 = 1;
+        int i2 = 2;
+        boolean b = false;
     }
 
 

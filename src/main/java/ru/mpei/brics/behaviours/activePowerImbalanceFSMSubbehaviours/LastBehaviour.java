@@ -16,10 +16,11 @@ import java.util.Set;
 public class LastBehaviour extends OneShotBehaviour {
 
     private NetworkElementConfiguration cfg = ((NetworkElementAgent) myAgent).getCfg();
+    private AnalyzeFrequency analyzeBehaviour;
 
-
-    public LastBehaviour(Agent a) {
+    public LastBehaviour(NetworkElementAgent a) {
         super(a);
+        this.analyzeBehaviour = new AnalyzeFrequency(a, a.getCfg().getUdpMonitoringPeriod());
 //        System.err.println(myAgent.getLocalName() + " last behaviour created");
     }
 
@@ -43,9 +44,9 @@ public class LastBehaviour extends OneShotBehaviour {
         cfg.setPTradeIsOpen(false);
         cfg.getFitnessValues().clear();
         cfg.getAgentsQueue().clear();
-        ((NetworkElementAgent) myAgent).setKieSession(null);
-        myAgent.addBehaviour(new AnalyzeFrequency(myAgent, ((NetworkElementAgent) myAgent).getCfg().getUdpMonitoringPeriod()));
-        log.error("regulating time: {} seconds", (System.currentTimeMillis() - ((NetworkElementAgent) myAgent).getStartTime()) / 1000);
+//        ((NetworkElementAgent) myAgent).setKieSession(null);
+        myAgent.addBehaviour(this.analyzeBehaviour);
+        log.error("regulating time: {} seconds", (System.currentTimeMillis() - ((NetworkElementAgent) myAgent).getStartTime()) / 1000.0);
     }
 
 //    @Override

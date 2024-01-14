@@ -99,7 +99,7 @@ public class AgentDetector implements DetectorMethodsInterface {
         if(!this.cleaningActive){
             this.deleteThread = ses.scheduleAtFixedRate(() -> {
                 for(AID aid : this.activeAgents.keySet()){
-                    if (System.currentTimeMillis() - activeAgents.get(aid) > 3L * this.period){
+                    if (System.currentTimeMillis() - activeAgents.get(aid) > 5L * this.period){
                         this.activeAgents.remove(aid);
                         log.warn("Agent {} was died", aid.getLocalName());
 //                        listeners.forEach(e -> e.listen(getActiveAgents()));
@@ -154,7 +154,7 @@ public class AgentDetector implements DetectorMethodsInterface {
             if(!(receivedAID.equals(myAgent))){
                 boolean alreadyExist = activeAgents.containsKey(receivedAID);
                 activeAgents.put(receivedAID, System.currentTimeMillis());
-                if (!alreadyExist) log.warn("Agent {} find {}", myAgent.getLocalName(), receivedAID.getLocalName());;
+                if (!alreadyExist) log.info("Agent {} find {}", myAgent.getLocalName(), receivedAID.getLocalName());;
             }
         }
     }

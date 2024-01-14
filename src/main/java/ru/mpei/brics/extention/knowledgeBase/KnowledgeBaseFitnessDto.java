@@ -1,20 +1,22 @@
-package ru.mpei.brics.extention.dto;
+package ru.mpei.brics.extention.knowledgeBase;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class DroolsFrequencyFitnessDto {
-    private String agentName;
+public class KnowledgeBaseFitnessDto {
+//    private String agentName;
     private double maxP;
+    private double minP;
     private double currentP;
     private double currentFreq;
     private double fitnessVal;
 
-    public DroolsFrequencyFitnessDto(String agent, double maxP, double currentP, double frequency) {
-        this.agentName = agent;
+    public KnowledgeBaseFitnessDto(double maxP, double minP, double currentP, double frequency) {
+//        this.agentName = agent;
         this.maxP = maxP;
+        this.minP = minP;
         this.currentP = currentP;
         this.currentFreq = frequency;
     }

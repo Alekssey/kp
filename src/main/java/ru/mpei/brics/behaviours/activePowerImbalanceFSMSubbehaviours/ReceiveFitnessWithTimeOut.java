@@ -3,13 +3,15 @@ package ru.mpei.brics.behaviours.activePowerImbalanceFSMSubbehaviours;
 import jade.core.Agent;
 import jade.core.behaviours.ParallelBehaviour;
 import jade.core.behaviours.WakerBehaviour;
+import ru.mpei.brics.agents.NetworkElementAgent;
 
 public class ReceiveFitnessWithTimeOut extends ParallelBehaviour {
 
-    private ReceiveFitValSubBehaviour receivingSubBehaviour = new ReceiveFitValSubBehaviour(myAgent);
+    private ReceiveFitValSubBehaviour receivingSubBehaviour;
 
-    public ReceiveFitnessWithTimeOut(Agent a) {
+    public ReceiveFitnessWithTimeOut(NetworkElementAgent a) {
         super(a, WHEN_ANY);
+        this.receivingSubBehaviour = new ReceiveFitValSubBehaviour(a);
     }
 
     @Override

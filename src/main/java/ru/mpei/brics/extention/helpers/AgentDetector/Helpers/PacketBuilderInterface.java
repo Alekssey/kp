@@ -68,7 +68,6 @@ public class PacketBuilderInterface implements BuilderMethodsInterface {
         //Checksum, can be 0x00 if it is not calculated
         for (int i = 30 + addCount, j = 6; i < 32 + addCount; i++, j++) packet[i] = longToBytes(0x0000)[j];
 
-
         return this;
     }
 

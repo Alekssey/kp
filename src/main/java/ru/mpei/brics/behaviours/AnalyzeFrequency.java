@@ -13,11 +13,15 @@ import ru.mpei.brics.extention.configirationClasses.NetworkElementConfiguration;
 public class AnalyzeFrequency extends TickerBehaviour {
 
     ApplicationContext context = ApplicationContextHolder.getContext();
-    private NetworkElementConfiguration cfg = ((NetworkElementAgent) myAgent).getCfg();
-    double startTime;
+    private NetworkElementConfiguration cfg;
+//    private ActivePowerImbalanceFSM regulateBehaviour;
+    private NetworkElementAgent a;
 
-    public AnalyzeFrequency(Agent a, long period) {
+    public AnalyzeFrequency(NetworkElementAgent a, long period) {
         super(a, period);
+        this.a = a;
+        this.cfg = a.getCfg();
+//        this.regulateBehaviour = new ActivePowerImbalanceFSM(a, this.getPeriod());
     }
 
     @Override
@@ -30,8 +34,8 @@ public class AnalyzeFrequency extends TickerBehaviour {
 
     @Override
     public int onEnd() {
-        ((NetworkElementAgent) myAgent).setStartTime(System.currentTimeMillis());
-        myAgent.addBehaviour(new ActivePowerImbalanceFSM(myAgent, this.getPeriod()));
+//        a.setStartTime(System.currentTimeMillis());
+        myAgent.addBehaviour(new ActivePowerImbalanceFSM(a, this.getPeriod()));
         return 1;
     }
 }

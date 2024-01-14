@@ -3,15 +3,19 @@
 <agentDescriptions>
 
     <agentDescription>
-        <name>station1</name>
+        <name>wes</name>
         <class>ru.mpei.brics.agents.NetworkElementAgent</class>
         <arg>station1Configuration.xml</arg>
+<!--        <arg>agentsRules/station1Rules.drl</arg>-->
+        <arg>agentsRules/station1Ruleset.rules</arg>
     </agentDescription>
 
     <agentDescription>
-        <name> </name>
+        <name>storage</name>
         <class>ru.mpei.brics.agents.NetworkElementAgent</class>
         <arg>station2Configuration.xml</arg>
+<!--        <arg>agentsRules/station2Rules.drl</arg>-->
+        <arg>agentsRules/station2Ruleset.rules</arg>
     </agentDescription>
 
 </agentDescriptions>

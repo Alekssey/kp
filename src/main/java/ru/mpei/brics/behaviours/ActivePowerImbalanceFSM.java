@@ -3,6 +3,7 @@ package ru.mpei.brics.behaviours;
 import jade.core.Agent;
 import jade.core.behaviours.FSMBehaviour;
 import jade.lang.acl.ACLMessage;
+import ru.mpei.brics.agents.NetworkElementAgent;
 import ru.mpei.brics.behaviours.activePowerImbalanceFSMSubbehaviours.*;
 
 public class ActivePowerImbalanceFSM extends FSMBehaviour {
@@ -16,17 +17,18 @@ public class ActivePowerImbalanceFSM extends FSMBehaviour {
             WAIT_IF_QUE_END = "wait_if_que_end",
             END = "end";
 
-    public ActivePowerImbalanceFSM(Agent a, long period) {
+    public ActivePowerImbalanceFSM(NetworkElementAgent a, long period) {
         super(a);
+        a.setStartTime(System.currentTimeMillis());
 
-        registerFirstState(new SendFitnessValue(myAgent), SEND_FITNESS);
-        registerState(new ReceiveFitnessWithTimeOut(myAgent), RECEIVE_FITNESS);
-        registerState(new RegulateFrequency(myAgent, period), REGULATE_FREQUENCY);
-        registerState(new SendSuccessMsg(myAgent), SEND_SUCCESS);
-        registerState(new SendFailMsg(myAgent, new ACLMessage()), SEND_FAIL);
-        registerState(new WaitForNotification(myAgent), NOTIFICATION_WAITING);
-        registerState(new WaitIfQueEnd(myAgent, 60_000), WAIT_IF_QUE_END);
-        registerLastState(new LastBehaviour(myAgent), END);
+        registerFirstState(new SendFitnessValue(a), SEND_FITNESS);
+        registerState(new ReceiveFitnessWithTimeOut(a), RECEIVE_FITNESS);
+        registerState(new RegulateFrequency(a, period), REGULATE_FREQUENCY);
+        registerState(new SendSuccessMsg(a), SEND_SUCCESS);
+        registerState(new SendFailMsg(a, new ACLMessage()), SEND_FAIL);
+        registerState(new WaitForNotification(a), NOTIFICATION_WAITING);
+        registerState(new WaitIfQueEnd(a, 60_000), WAIT_IF_QUE_END);
+        registerLastState(new LastBehaviour(a), END);
 
         registerDefaultTransition(SEND_FITNESS, RECEIVE_FITNESS);
 

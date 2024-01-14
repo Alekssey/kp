@@ -18,8 +18,8 @@ public class HttpRequestsBuilder<T> {
         return response;
     }
 
-    public ResponseEntity sendPostRequest(String url, HashMap<?,?> parameters, T body) {
-        url = addParametersToUrl(url, parameters);
+    public synchronized ResponseEntity sendPostRequest(String url, HashMap<?,?> parameters, T body) {
+//        url = addParametersToUrl(url, parameters);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -28,6 +28,7 @@ public class HttpRequestsBuilder<T> {
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+//        System.err.println("SEND");
         return response;
     }
 

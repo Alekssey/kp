@@ -2,6 +2,8 @@ package ru.mpei.brics.extention.configirationClasses;
 
 import jade.core.AID;
 import lombok.Data;
+import ru.mpei.brics.extention.knowledgeBase.KnowledgeBaseCommunicator;
+import ru.mpei.brics.extention.knowledgeBase.drools.DroolsCommunicator;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -63,6 +65,9 @@ public class NetworkElementConfiguration {
     private String pMeasurementName;
     @XmlElement(name = "pCommandName")
     private String pCommandName;
+    @XmlElement(name = "identifyingCommand")
+    private String identifyingCommand;
 
+    private KnowledgeBaseCommunicator knowledgeBase;
 
 }

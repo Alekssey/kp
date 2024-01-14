@@ -13,11 +13,12 @@ import java.util.Collections;
 @Slf4j
 public class ReceiveFitValSubBehaviour extends Behaviour {
     private MessageTemplate mt = null;
-    private NetworkElementConfiguration cfg = ((NetworkElementAgent) myAgent).getCfg();
+    private NetworkElementConfiguration cfg;
     private int msgCounter = 0;
 
-    public ReceiveFitValSubBehaviour(Agent a) {
+    public ReceiveFitValSubBehaviour(NetworkElementAgent a) {
         super(a);
+        this.cfg = a.getCfg();
 //        System.err.println(myAgent.getLocalName() + " receive fitness behaviour created");
     }
 

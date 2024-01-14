@@ -1,0 +1,83 @@
+[ActivePowerDeficitFitnessCalculation:
+    (kp:fitnessModel kp:frequency ?f),
+    lessThan(?f, 50),
+    (kp:fitnessModel kp:currentPower ?currentP),
+    (kp:fitnessModel kp:maxPower ?maxP),
+    quotient(?currentP, ?maxP, ?div),
+    difference(1, ?div, ?dif),
+    product(?dif, 10, ?prod),
+    sum(?prod, 10, ?fit)
+    ->
+    print(fit 1),
+    (kp:fitnessModel kp:fitness ?fit)]
+
+[ActivePowerExcessFitnessCalculation:
+    (kp:fitnessModel kp:frequency ?f),
+    greaterThan(?f, 50),
+    (kp:fitnessModel kp:currentPower ?currentP),
+    (kp:fitnessModel kp:maxPower ?maxP),
+    quotient(?currentP, ?maxP, ?div),
+    product(?div, 10, ?prod),
+    sum(?prod, 10, ?fit)
+    ->
+    print(fit 2),
+    (kp:fitnessModel kp:fitness ?fit)]
+
+[FitnessFunctionAtPowerLimitAndDeficit:
+    (kp:fitnessModel kp:frequency ?f),
+    lessThan(?f, 50),
+    (kp:fitnessModel kp:currentPower ?currentP),
+    (kp:fitnessModel kp:maxPower ?maxP),
+    equal(?maxP,?currentP)
+    ->
+    print(fit 3),
+    (kp:fitnessModel kp:fitness 0.0)]
+
+[FitnessFunctionAtPowerLimitAndExcess:
+    (kp:fitnessModel kp:frequency ?f),
+    greaterThan(?f, 50),
+    (kp:fitnessModel kp:currentPower ?currentP),
+    (kp:fitnessModel kp:minPower ?minP),
+    equal(?minP,?currentP)
+    ->
+    print(fit 4),
+    (kp:fitnessModel kp:fitness 0)]
+
+[AllowSignalByPower:
+    (kp:allowModel kp:maxPower ?maxP),
+    (kp:allowModel kp:currentPower ?currentP),
+    (kp:allowModel kp:minPower ?minP),
+    ge(?currentP, ?minP),
+    le(?currentP, ?maxP)
+    ->
+    (kp:allowModel kp:allow xsd:boolean:true)]
+
+[AllowSignalByFrequency:
+    (kp:allowModel kp:frequency ?f),
+    ge(?f, 48.5),
+    le(?f, 51.5)
+    ->
+    (kp:allowModel kp:allow xsd:boolean:true)]
+
+[ForbiddingSignalByFrequencyAtDeficit:
+    (kp:allowModel kp:frequency ?f),
+    lessThan(?f, 48.5)
+    ->
+    (kp:allowModel kp:allow xsd:boolean:false)]
+
+[ForbiddingSignalByFrequencyAtExcess:
+    (kp:allowModel kp:frequency ?f),
+    greaterThan(?f, 51.5)
+    ->
+    (kp:allowModel kp:allow xsd:boolean:false)]
+
+
+
+
+
+
+
+
+
+
+

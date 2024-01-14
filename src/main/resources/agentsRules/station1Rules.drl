@@ -1,24 +1,60 @@
-import ru.mpei.brics.extention.dto.DroolsFrequencyFitnessDto;
-import ru.mpei.brics.extention.dto.DroolsFrequencyAllowDto;
+import ru.mpei.brics.extention.knowledgeBase.KnowledgeBaseFitnessDto;
+import ru.mpei.brics.extention.knowledgeBase.KnowledgeBaseAllowDto;
 import jade.core.Agent;
 
-rule "station1 active power deficit fitness calculation"
+rule "Active power deficit fitness calculation"
+    salience 1
     when
-        $dto: DroolsFrequencyFitnessDto(agentName == "station1", currentFreq < 50)
+        $dto: KnowledgeBaseFitnessDto(currentFreq < 50)
     then
         $dto.setFitnessVal(10 * (1- $dto.getCurrentP() / $dto.getMaxP()) + 10);
 end
 
-rule "station1 active power surplus fitness calculation"
+rule "Active power excess fitness calculation"
+    salience 1
     when
-        $dto: DroolsFrequencyFitnessDto(agentName == "station1", currentFreq > 50)
+        $dto: KnowledgeBaseFitnessDto(currentFreq > 50)
     then
         $dto.setFitnessVal(10 * ($dto.getCurrentP() / $dto.getMaxP()) + 10);
 end
 
-rule "station1 allow signal"
+rule "fitness function at a power limit and deficit"
+    salience 2
     when
-        $dto: DroolsFrequencyAllowDto(agentName == "station1", currentP <= maxP && currentP >= 0)
+        $dto: KnowledgeBaseFitnessDto(currentP==maxP && currentFreq < 50)
+    then
+        $dto.setFitnessVal(0);
+end
+
+rule "fitness function at a power limit and excess"
+    salience 2
+    when
+        $dto: KnowledgeBaseFitnessDto(currentP==minP && currentFreq > 50)
+    then
+        $dto.setFitnessVal(0);
+end
+
+rule "allow signal by power"
+    salience 1
+    when
+        $dto: KnowledgeBaseAllowDto(currentP <= maxP && currentP >= minP)
     then
         $dto.setAllow(true);
 end
+
+rule "allow signal by frequency"
+    salience 1
+    when
+        $dto: KnowledgeBaseAllowDto(currentFreq <= 51.5 && currentFreq >= 48.5)
+    then
+        $dto.setAllow(true);
+end
+
+rule "forbidding signal by frequency"
+    salience 2
+    when
+        $dto: KnowledgeBaseAllowDto(currentFreq > 51.5 || currentFreq < 48.5)
+    then
+        $dto.setAllow(false);
+end
+
